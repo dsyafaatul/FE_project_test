@@ -5,6 +5,7 @@ import './index.css'
 import Error from './pages/Error.jsx'
 import Login from './pages/Login.jsx'
 import Dashboard from './layouts/Dashboard.jsx'
+import Home from './pages/Home.jsx'
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,13 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard',
-        element: <Dashboard />
+        element: <Dashboard />,
+        children: [
+          {
+            index: true,
+            element: <Home />
+          }
+        ]
       }
     ]
   }
