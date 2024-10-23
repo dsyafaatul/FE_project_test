@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, json, redirect, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, defer, json, redirect, RouterProvider } from 'react-router-dom'
 import './index.css'
 import Error from './pages/Error.jsx'
 import Login from './pages/Login.jsx'
@@ -66,6 +66,14 @@ const router = createBrowserRouter([
           },
           {
             path: 'user',
+            async loader({request}){
+              const url = new URL(request.url)
+              return defer({
+                data: fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
+                  credentials: 'include'
+                }).then(response => response.json())
+              })
+            },
             element: <User />
           },
           {
