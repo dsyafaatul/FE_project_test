@@ -71,10 +71,12 @@ const router = createBrowserRouter([
                 path: 'user',
                 async loader({request}){
                   const url = new URL(request.url)
+                  const response = await fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
+                    credentials: 'include'
+                  })
+                  if(!response.ok) throw json(await response.json())
                   return defer({
-                    data: fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
-                      credentials: 'include'
-                    }).then(response => response.json())
+                    data: response.json()
                   })
                 },
                 element: <User />

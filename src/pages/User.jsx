@@ -46,7 +46,11 @@ export default function User(){
                             <td colSpan="5" className="text-center">Loading...</td>
                         </tr>
                     )}>
-                        <Await resolve={data}>
+                        <Await resolve={data} errorElement={(
+                            <tr className="*:border *:border-slate-300 *:p-1.5">
+                                <td colSpan="5" className="text-center">Data Gagal dimuat</td>
+                            </tr>
+                        )}>
                             {(data) => {
                                 if(data.length === 0){
                                     return (
