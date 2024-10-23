@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Outlet, useSubmit } from "react-router-dom"
+import { NavLink, Outlet, useSubmit } from "react-router-dom"
 
 export default function Dashboard(){
     const [showSideBarMobile, setShowSidebarMobile] = useState(false)
@@ -14,18 +14,18 @@ export default function Dashboard(){
             }}>
                 <nav className="h-full w-60 p-4 bg-slate-100 border-r-2">
                     <ul className="space-y-2">
-                        <li className="has-[ul]:border-t-2"><a href="#" className="block rounded-lg p-2 hover:bg-slate-200">Home</a></li>
+                        <li className="has-[ul]:border-t-2"><NavLink end to="/dashboard" className={({isActive}) => `block rounded-lg p-2 ${isActive && 'bg-slate-300'} hover:bg-slate-200`}>Home</NavLink></li>
                         <li className="has-[ul]:border-t-2">
                             <span className="block p-2 text-slate-600">Master</span>
                             <ul className="ml-4 space-y-1">
-                                <li className="has-[ul]:border-t-2"><a href="#" className="block rounded-lg p-2 hover:bg-slate-200">User</a></li>
-                                <li className="has-[ul]:border-t-2"><a href="#" className="block rounded-lg p-2 hover:bg-slate-200">Terminal</a></li>
+                                <li className="has-[ul]:border-t-2"><NavLink end to="/dashboard/user" className={({isActive}) => `block rounded-lg p-2 ${isActive && 'bg-slate-300'} hover:bg-slate-200`}>User</NavLink></li>
+                                <li className="has-[ul]:border-t-2"><NavLink end to="/dashboard/terminal" className={({isActive}) => `block rounded-lg p-2 ${isActive && 'bg-slate-300'} hover:bg-slate-200`}>Terminal</NavLink></li>
                             </ul>
                         </li>
                         <li className="has-[ul]:border-t-2">
                             <span className="block p-2 text-slate-600">Announce</span>
                             <ul className="ml-4 space-y-1">
-                                <li className="has-[ul]:border-t-2"><a href="#" className="block rounded-lg p-2 hover:bg-slate-200">Vessel</a></li>
+                                <li className="has-[ul]:border-t-2"><NavLink end to="/dashboard/announce/vessel" className={({isActive}) => `block rounded-lg p-2 ${isActive && 'bg-slate-300'} hover:bg-slate-200`}>Vessel</NavLink></li>
                             </ul>
                         </li>
                     </ul>
