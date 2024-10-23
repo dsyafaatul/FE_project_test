@@ -83,6 +83,16 @@ const router = createBrowserRouter([
               },
               {
                 path: 'terminal',
+                async loader({request}){
+                  const url = new URL(request.url)
+                  const response = await fetch(`${import.meta.env.VITE_API_URL}/terminal?q=${url.searchParams.get('q') || ''}`, {
+                    credentials: 'include'
+                  })
+                  if(!response.ok) throw json(await response.json())
+                  return defer({
+                    data: response.json()
+                  })
+                },
                 element: <Terminal />
               },
               {
