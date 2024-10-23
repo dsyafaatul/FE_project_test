@@ -3,6 +3,7 @@ import { isRouteErrorResponse, useRouteError } from "react-router-dom"
 export default function Error(){
     const error = useRouteError()
     const isRouteError = isRouteErrorResponse(error)
+    if(import.meta.env.DEV) console.log(error)
 
     return (
         <div className="container mx-auto">
