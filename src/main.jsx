@@ -97,6 +97,16 @@ const router = createBrowserRouter([
               },
               {
                 path: 'announce/vessel',
+                async loader({request}){
+                  const url = new URL(request.url)
+                  const response = await fetch(`${import.meta.env.VITE_API_URL}/announce/vessel?q=${url.searchParams.get('q') || ''}`, {
+                    credentials: 'include'
+                  })
+                  if(!response.ok) throw json(await response.json())
+                  return defer({
+                    data: response.json()
+                  })
+                },
                 element: <AnnounceVessel />
               }
             ]
