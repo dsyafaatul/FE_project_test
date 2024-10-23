@@ -68,7 +68,13 @@ export default function Terminal(){
                                             <td className="text-center">
                                                 <div className="space-x-2">
                                                     <button className="bg-orange-500 text-white px-4 py-2 rounded-md">Edit</button>
-                                                    <button className="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
+                                                    <button onClick={() => {
+                                                        if(confirm('Yakin ingin menghapus data?')){
+                                                            submit({terminalId: row.terminalId}, {
+                                                                method: 'DELETE'
+                                                            })
+                                                        }
+                                                    }} className="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
