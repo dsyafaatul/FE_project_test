@@ -39,6 +39,17 @@ const router = createBrowserRouter([
         element: <Login />
       },
       {
+        path: '/logout',
+        async action(){
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+            method: 'DELETE',
+            credentials: 'include'
+          })
+          if(!response.ok) return null
+          return redirect('/')
+        }
+      },
+      {
         path: '/dashboard',
         element: <Dashboard />,
         async loader(){
