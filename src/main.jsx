@@ -6,6 +6,7 @@ import Error from './pages/Error.jsx'
 import Login from './pages/Login.jsx'
 import Dashboard from './layouts/Dashboard.jsx'
 import Home from './pages/Home.jsx'
+import User from './pages/User.jsx'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Home />
+          },
+          {
+            path: 'user',
+            element: <User />
           }
         ]
       }
