@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx'
 import Dashboard from './layouts/Dashboard.jsx'
 import Home from './pages/Home.jsx'
 import User from './pages/User.jsx'
+import Terminal from './pages/Terminal.jsx'
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
           {
             path: 'user',
             element: <User />
+          },
+          {
+            path: 'terminal',
+            element: <Terminal />
           }
         ]
       }
