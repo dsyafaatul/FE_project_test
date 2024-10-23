@@ -61,28 +61,33 @@ const router = createBrowserRouter([
         },
         children: [
           {
-            index: true,
-            element: <Home />
-          },
-          {
-            path: 'user',
-            async loader({request}){
-              const url = new URL(request.url)
-              return defer({
-                data: fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
-                  credentials: 'include'
-                }).then(response => response.json())
-              })
-            },
-            element: <User />
-          },
-          {
-            path: 'terminal',
-            element: <Terminal />
-          },
-          {
-            path: 'announce/vessel',
-            element: <AnnounceVessel />
+            errorElement: <Error />,
+            children: [
+              {
+                index: true,
+                element: <Home />
+              },
+              {
+                path: 'user',
+                async loader({request}){
+                  const url = new URL(request.url)
+                  return defer({
+                    data: fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
+                      credentials: 'include'
+                    }).then(response => response.json())
+                  })
+                },
+                element: <User />
+              },
+              {
+                path: 'terminal',
+                element: <Terminal />
+              },
+              {
+                path: 'announce/vessel',
+                element: <AnnounceVessel />
+              }
+            ]
           }
         ]
       }
