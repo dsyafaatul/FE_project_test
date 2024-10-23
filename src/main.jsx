@@ -79,6 +79,26 @@ const router = createBrowserRouter([
                     data: response.json()
                   })
                 },
+                async action({request}){
+                  const formData = await request.formData()
+                  if(request.method === 'DELETE'){
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+                      method: 'DELETE',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(Object.fromEntries(formData))
+                    })
+                    if(!response.ok) throw json(await response.json())
+                    return await response.json()
+                  }
+
+                  throw new Response(null, {
+                    status: 405,
+                    statusText: 'Method Not Allowed'
+                  })
+                },
                 element: <User />
               },
               {
