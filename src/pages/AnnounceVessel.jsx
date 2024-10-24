@@ -12,6 +12,7 @@ export default function AnnounceVessel(){
         announceId: '',
         announceCode: '',
         announceVessel: '',
+        voyage: '',
         terminalId: ''
     })
     const actionData = useActionData()
@@ -51,6 +52,7 @@ export default function AnnounceVessel(){
                         announceId: '',
                         announceCode: '',
                         announceVessel: '',
+                        voyage: '',
                         terminalId: ''
                     })
                 }} className="bg-blue-500 text-white px-4 py-2 rounded-md">Tambah Data</button>
@@ -70,6 +72,7 @@ export default function AnnounceVessel(){
                             <th>No</th>
                             <th>Code</th>
                             <th>Vessel</th>
+                            <th>Voyage</th>
                             <th>Terminal</th>
                             <th>Action</th>
                         </tr>
@@ -100,6 +103,7 @@ export default function AnnounceVessel(){
                                                 <td className="text-right">{no+1}</td>
                                                 <td>{row.announceCode}</td>
                                                 <td>{row.announceVessel}</td>
+                                                <td>{row.voyage}</td>
                                                 <td>{row.terminalName}</td>
                                                 <td className="text-center">
                                                     <button onClick={() => {
@@ -108,6 +112,7 @@ export default function AnnounceVessel(){
                                                             announceId: row.announceId,
                                                             announceCode: row.announceCode,
                                                             announceVessel: row.announceVessel,
+                                                            voyage: row.voyage,
                                                             terminalId: row.terminalId
                                                         })
                                                     }} className="bg-orange-500 text-white px-4 py-2 rounded-md m-1">Edit</button>
@@ -145,6 +150,13 @@ export default function AnnounceVessel(){
                                 setAnnounceVesselData({
                                     ...announceVesselData,
                                     announceVessel: e.target.value
+                                })
+                            }} required />
+                            <label className="dark:text-slate-300" htmlFor="voyage">Voyage</label>
+                            <input type="text" name="voyage" id="announceVessel" className="border p-2 dark:bg-slate-500" placeholder="Voyage" value={announceVesselData.voyage} onChange={(e) => {
+                                setAnnounceVesselData({
+                                    ...announceVesselData,
+                                    voyage: e.target.value
                                 })
                             }} required />
                             <label className="dark:text-slate-300" htmlFor="terminalId">Terminal</label>
