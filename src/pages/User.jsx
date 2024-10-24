@@ -37,7 +37,7 @@ export default function User(){
     return (
         <>
         <div className="flex flex-col sm:flex-row justify-between my-4 space-y-4 sm:space-y-0 sm:items-center">
-                <button className="bg-lime-500 text-white px-4 py-2 rounded-md">Export Excel</button>
+                <a href={`${import.meta.env.VITE_API_URL}/user/excel`} target="_blank" className="bg-lime-500 text-white px-4 py-2 rounded-md">Export Excel</a>
                 <div></div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between my-4 space-y-4 sm:space-y-0 sm:items-center">
