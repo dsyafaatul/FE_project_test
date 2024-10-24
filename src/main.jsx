@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, defer, json, redirect, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, defer, redirect, RouterProvider } from 'react-router-dom'
 import './index.css'
 import Error from './pages/Error.jsx'
 import Login from './pages/Login.jsx'
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
           const response = await fetch(`${import.meta.env.VITE_API_URL}/auth`, {
             credentials: 'include'
           })
-          if(!response.ok) return null
+          if(!response.ok) return await response.json()
           return redirect('/dashboard')
         },
         async action({request}){
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
             },
             body: JSON.stringify(Object.fromEntries(formData))
           })
-          if(!response.ok) return json(await response.json())
+          if(!response.ok) return await response.json()
           return redirect('/dashboard')
         },
         element: <Login />
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             method: 'DELETE',
             credentials: 'include'
           })
-          if(!response.ok) return null
+          if(!response.ok) return await response.json()
           return redirect('/')
         }
       },
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
                   const response = await fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
                     credentials: 'include'
                   })
-                  if(!response.ok) throw json(await response.json())
+                  if(!response.ok) throw await response.json()
                   return defer({
                     data: response.json()
                   })
@@ -90,7 +90,7 @@ const router = createBrowserRouter([
                       },
                       body: JSON.stringify(Object.fromEntries(formData))
                     })
-                    if(!response.ok) throw json(await response.json())
+                    if(!response.ok) throw await response.json()
                     return await response.json()
                   }
 
@@ -108,7 +108,7 @@ const router = createBrowserRouter([
                   const response = await fetch(`${import.meta.env.VITE_API_URL}/terminal?q=${url.searchParams.get('q') || ''}`, {
                     credentials: 'include'
                   })
-                  if(!response.ok) throw json(await response.json())
+                  if(!response.ok) throw await response.json()
                   return defer({
                     data: response.json()
                   })
@@ -124,7 +124,7 @@ const router = createBrowserRouter([
                       },
                       body: JSON.stringify(Object.fromEntries(formData))
                     })
-                    if(!response.ok) throw json(await response.json())
+                    if(!response.ok) throw await response.json()
                     return await response.json()
                   }
 
@@ -142,7 +142,7 @@ const router = createBrowserRouter([
                   const response = await fetch(`${import.meta.env.VITE_API_URL}/announce/vessel?q=${url.searchParams.get('q') || ''}`, {
                     credentials: 'include'
                   })
-                  if(!response.ok) throw json(await response.json())
+                  if(!response.ok) throw await response.json()
                   return defer({
                     data: response.json()
                   })
@@ -158,7 +158,7 @@ const router = createBrowserRouter([
                       },
                       body: JSON.stringify(Object.fromEntries(formData))
                     })
-                    if(!response.ok) throw json(await response.json())
+                    if(!response.ok) throw await response.json()
                     return await response.json()
                   }
 

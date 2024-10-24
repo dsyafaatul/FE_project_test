@@ -1,9 +1,9 @@
 import { useState } from "react"
-import { NavLink, Outlet, useSubmit } from "react-router-dom"
+import { NavLink, Outlet, useFetcher } from "react-router-dom"
 
 export default function Dashboard(){
     const [showSideBarMobile, setShowSidebarMobile] = useState(false)
-    const submit = useSubmit()
+    const fetcher = useFetcher()
 
     return (
         <div className="flex h-screen">
@@ -71,13 +71,11 @@ export default function Dashboard(){
                             <label htmlFor="menu_atas"><img src="/user.png" alt="user" className={`w-10 h-10 rounded-full cursor-pointer hover:ring-2 ${showSideBarMobile && 'blur-sm'} sm:blur-0`} /></label>
                             <div className="absolute bottom-0 right-0 hidden group-has-[:checked]/user:block">
                                 <ul className="absolute top-0 right-0 bg-white shadow-lg rounded-md p-2 text-nowrap min-w-52">
-                                    <li><button className="block w-full text-left p-2 hover:bg-slate-100" onClick={() => {
-                                        submit({}, {
-                                            action: '/logout',
-                                            method: 'DELETE',
-                                            navigate: false
-                                        })
-                                    }}>Logout</button></li>
+                                    <li>
+                                        <fetcher.Form action="/logout" method="DELETE">
+                                            <button className="block w-full text-left p-2 hover:bg-slate-100">Logout</button>
+                                        </fetcher.Form>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
