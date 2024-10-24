@@ -9,7 +9,7 @@ export default function Login(){
             <div className="flex flex-col w-full h-screen justify-center items-center bg-slate-200 dark:bg-slate-800">
                 <div className="p-4 bg-white rounded-md shadow-lg dark:bg-slate-700">
                     {actionData?.message && <p className="text-red-500 text-center py-4">{actionData.message}</p>}
-                    <div className="grid grid-cols-1 sm:grid-cols-[min-content_1fr] gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-[min-content_1fr] gap-4 items-center">
                         <label htmlFor="username" className="dark:text-slate-400">Username</label>
                         <input type="text" name="username" id="username" className="border rounded-md p-2 dark:bg-slate-500 dark:placeholder:text-slate-300" placeholder="Masukan Username" required />
                         <label htmlFor="password" className="dark:text-slate-400">Password</label>
