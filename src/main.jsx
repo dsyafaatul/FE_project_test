@@ -113,6 +113,21 @@ const router = createBrowserRouter([
                       method: request.method,
                       response: await response.json()
                     }
+                  }else
+                  if(request.method === 'PUT'){
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+                      method: 'PUT',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(Object.fromEntries(formData))
+                    })
+                    return {
+                      ok: response.ok,
+                      method: request.method,
+                      response: await response.json()
+                    }
                   }
 
                   throw new Response(null, {
