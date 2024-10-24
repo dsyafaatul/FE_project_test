@@ -71,12 +71,18 @@ const router = createBrowserRouter([
                 path: 'user',
                 async loader({request}){
                   const url = new URL(request.url)
-                  const response = await fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
-                    credentials: 'include'
-                  })
-                  if(!response.ok) throw await response.json()
+                  const response = await Promise.all([
+                    fetch(`${import.meta.env.VITE_API_URL}/user?q=${url.searchParams.get('q') || ''}`, {
+                      credentials: 'include'
+                    }),
+                    fetch(`${import.meta.env.VITE_API_URL}/terminal`, {
+                      credentials: 'include'
+                    })
+                  ])
+                  // if(!response.ok) throw await response.json()
                   return defer({
-                    data: response.json()
+                    data: response[0].json(),
+                    terminal: response[1].json(),
                   })
                 },
                 async action({request}){
@@ -92,6 +98,21 @@ const router = createBrowserRouter([
                     })
                     if(!response.ok) throw await response.json()
                     return await response.json()
+                  }else
+                  if(request.method === 'POST'){
+                    const response = await fetch(`${import.meta.env.VITE_API_URL}/user`, {
+                      method: 'POST',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(Object.fromEntries(formData))
+                    })
+                    return {
+                      ok: response.ok,
+                      method: request.method,
+                      response: await response.json()
+                    }
                   }
 
                   throw new Response(null, {

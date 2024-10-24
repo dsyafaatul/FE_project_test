@@ -1,17 +1,38 @@
-import { Suspense, useEffect } from "react";
-import { Await, useLoaderData, useSearchParams, useSubmit } from "react-router-dom";
+import { Suspense, useEffect, useRef, useState } from "react";
+import { Await, Form, useActionData, useLoaderData, useSearchParams, useSubmit } from "react-router-dom";
 
 export default function User(){
-    const {data} = useLoaderData()
+    const {data, terminal} = useLoaderData()
     const [searchParams,] = useSearchParams()
     const q = searchParams.get('q')
     const submit = useSubmit()
+    const [showModal, setShowModal] = useState(false)
+    const [userData, setUserData] = useState({
+        userId: '',
+        username: '',
+        password: '',
+        terminalId: ''
+    })
+    const actionData = useActionData()
+    const username = useRef(null)
 
     useEffect(() => {
         if(!q){
             document.querySelector('[name=q]').value = ''
         }
     }, [q])
+
+    useEffect(() => {
+        if(showModal){
+            username.current.focus()
+        }
+    }, [showModal])
+
+    useEffect(() => {
+        if(actionData && ['POST', 'PUT'].includes(actionData.method) && actionData.ok){
+            setShowModal(false)
+        }
+    }, [actionData])
 
     return (
         <>
@@ -20,7 +41,15 @@ export default function User(){
                 <div></div>
             </div>
             <div className="flex flex-col sm:flex-row justify-between my-4 space-y-4 sm:space-y-0 sm:items-center">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Tambah Data</button>
+                <button onClick={() => {
+                    setShowModal(true)
+                    setUserData({
+                        userId: '',
+                        username: '',
+                        password: '',
+                        terminalId: ''
+                    })
+                }} className="bg-blue-500 text-white px-4 py-2 rounded-md">Tambah Data</button>
                 <form>
                     <input type="text" name="q" className="border rounded-md py-2 px-4" placeholder="Search" defaultValue={q} onChange={(e) => {
                         const first = q === null
@@ -69,7 +98,15 @@ export default function User(){
                                             <td>{row.terminalName}</td>
                                             <td className="text-center">
                                                 <div className="space-x-2">
-                                                    <button className="bg-orange-500 text-white px-4 py-2 rounded-md">Edit</button>
+                                                    <button onClick={() => {
+                                                        setShowModal(true)
+                                                        setUserData({
+                                                            userId: row.userId,
+                                                            username: row.username,
+                                                            password: '',
+                                                            terminalId: row.terminalId
+                                                        })
+                                                    }} className="bg-orange-500 text-white px-4 py-2 rounded-md">Edit</button>
                                                     <button onClick={() => {
                                                         if(confirm('Yakin ingin menghapus data?')){
                                                             submit({userId: row.userId}, {
@@ -87,6 +124,51 @@ export default function User(){
                     </Suspense>
                 </tbody>
             </table>
+            <div className={`${showModal ? 'fixed' : 'hidden'} w-screen h-screen bg-slate-500/40 left-0 top-0 right-0 bottom-0 flex justify-center items-center backdrop-blur-sm`}>
+                <div className="bg-white p-4 rounded-md w-full max-w-md">
+                    <Form method={userData.userId === '' ? 'POST' : 'PUT'}>
+                        <input type="hidden" name="userId" value={userData.userId} />
+                        <div className="grid grid-cols-1 gap-2">
+                            <label htmlFor="username">Username</label>
+                            <input type="text" name="username" id="username" className="border p-2" placeholder="Username" value={userData.username} onChange={(e) => {
+                                setUserData({
+                                    ...userData,
+                                    username: e.target.value
+                                })
+                            }} required ref={username} />
+                            <label htmlFor="password">Password</label>
+                            <input type="password" name="password" id="password" className="border p-2" placeholder="Password" value={userData.password} onChange={(e) => {
+                                setUserData({
+                                    ...userData,
+                                    password: e.target.value
+                                })
+                            }} required={userData.userId === ''} />
+                            <label htmlFor="terminalId">Terminal</label>
+                            <select name="terminalId" id="terminalId" className="border p-2 bg-white" value={userData.terminalId} onChange={(e) => {
+                                setUserData({
+                                    ...userData,
+                                    terminalId: e.target.value
+                                })
+                            }} required>
+                                <Suspense fallback={<option disabled={true}>Loading...</option>}>
+                                    <Await resolve={terminal} errorElement={<option disabled={true}>Gagal mengambil data</option>}>
+                                        {(data) => {
+                                            return data.map(row => {
+                                                return <option key={row.terminalId} value={row.terminalId}>{row.terminalName}</option>
+                                            })
+                                        }}
+                                    </Await>
+                                </Suspense>
+                            </select>
+                            {actionData && ['POST', 'PUT'].includes(actionData.method) && !actionData.ok && <p className="text-red-500">{actionData.response.message}</p>}
+                            <div className="flex justify-end gap-2">
+                                <button type="button" onClick={() => setShowModal(false)} className="bg-gray-500 px-4 py-2 rounded-md hover:bg-gray-400 text-white">Cancel</button>
+                                <button className="bg-lime-500 px-4 py-2 rounded-md hover:bg-lime-400">Save</button>
+                            </div>
+                        </div>
+                    </Form>
+                </div>
+            </div>
         </>
     )
 }
