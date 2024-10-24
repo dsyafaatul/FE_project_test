@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import { Form, useActionData, useNavigation } from "react-router-dom";
 
 export default function Login(){
@@ -6,6 +7,9 @@ export default function Login(){
 
     return (
         <Form method="POST">
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
             <div className="flex flex-col w-full h-screen justify-center items-center bg-slate-200 dark:bg-slate-800">
                 <div className="p-4 bg-white rounded-md shadow-lg dark:bg-slate-700">
                     {actionData?.message && <p className="text-red-500 text-center py-4">{actionData.message}</p>}

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { NavLink, Outlet, useFetcher, useLoaderData } from "react-router-dom"
 import UserContext from "../contexts/UserContext"
+import { Helmet } from "react-helmet"
 
 export default function Dashboard(){
     const [showSideBarMobile, setShowSidebarMobile] = useState(false)
@@ -9,6 +10,7 @@ export default function Dashboard(){
 
     return (
         <UserContext.Provider value={loaderData}>
+            <Helmet titleTemplate="%s | Dashboard" />
             <div className="flex h-screen">
                 <aside className={`w-full sm:w-auto absolute sm:static top-0 bottom-0 transition-all ${showSideBarMobile ? 'left-0' : '-left-full'} backdrop-blur-sm`} onClick={(e) => {
                     if(e.target == e.currentTarget){

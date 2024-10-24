@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useRef, useState } from "react"
+import { Helmet } from "react-helmet"
 import { Await, Form, useActionData, useLoaderData, useSearchParams, useSubmit } from "react-router-dom"
 
 export default function Terminal(){
@@ -35,6 +36,9 @@ export default function Terminal(){
 
     return (
         <>
+        <Helmet>
+            <title>Terminal</title>
+        </Helmet>
         <div className="flex flex-col sm:flex-row justify-between my-4 space-y-4 sm:space-y-0 sm:items-center">
                 <a href={`${import.meta.env.VITE_API_URL}/terminal/excel`} target="_blank" className="bg-lime-500 text-white px-4 py-2 rounded-md">Export Excel</a>
                 <div></div>
