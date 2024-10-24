@@ -17,10 +17,13 @@ const router = createBrowserRouter([
       {
         path: '/',
         async loader(){
+          const terminal = await fetch(`${import.meta.env.VITE_API_URL}/auth/terminal`, {
+            credentials: 'include'
+          })
           const response = await fetch(`${import.meta.env.VITE_API_URL}/auth`, {
             credentials: 'include'
           })
-          if(!response.ok) return await response.json()
+          if(!response.ok) return terminal.json()
           return redirect('/dashboard')
         },
         async action({request}){
