@@ -51,7 +51,7 @@ export default function User(){
                     })
                 }} className="bg-blue-500 text-white px-4 py-2 rounded-md">Tambah Data</button>
                 <form>
-                    <input type="text" name="q" className="border rounded-md py-2 px-4 w-full" placeholder="Search" defaultValue={q} onChange={(e) => {
+                    <input type="text" name="q" className="border rounded-md py-2 px-4 w-full dark:bg-slate-800 dark:text-slate-300" placeholder="Search" defaultValue={q} onChange={(e) => {
                         const first = q === null
                         submit(e.target.form, {
                             replace: !first
@@ -60,9 +60,9 @@ export default function User(){
                 </form>
             </div>
             <div className="overflow-auto">
-                <table className="w-full">
+                <table className="w-full dark:bg-slate-800 dark:text-slate-300">
                     <thead>
-                        <tr className="*:border *:border-slate-300 *:p-1.5">
+                        <tr className="*:border *:border-slate-300 dark:*:border-slate-500 *:p-1.5">
                             <th>No</th>
                             <th>Username</th>
                             <th>Password</th>
@@ -72,19 +72,19 @@ export default function User(){
                     </thead>
                     <tbody>
                         <Suspense fallback={(
-                            <tr className="*:border *:border-slate-300 *:p-1.5">
+                            <tr className="*:border *:border-slate-300 dark:*:border-slate-500 *:p-1.5">
                                 <td colSpan="5" className="text-center">Loading...</td>
                             </tr>
                         )}>
                             <Await resolve={data} errorElement={(
-                                <tr className="*:border *:border-slate-300 *:p-1.5">
+                                <tr className="*:border *:border-slate-300 dark:*:border-slate-500 *:p-1.5">
                                     <td colSpan="5" className="text-center">Data Gagal dimuat</td>
                                 </tr>
                             )}>
                                 {(data) => {
                                     if(data.length === 0){
                                         return (
-                                            <tr className="*:border *:border-slate-300 *:p-1.5">
+                                            <tr className="*:border *:border-slate-300 dark:*:border-slate-500 *:p-1.5">
                                                 <td colSpan="5" className="text-center">Data Kosong</td>
                                             </tr>
                                         )
@@ -92,7 +92,7 @@ export default function User(){
 
                                     return data.map((row, no) => {
                                         return (
-                                            <tr className="*:border *:border-slate-300 *:p-1.5" key={row.userId}>
+                                            <tr className="*:border *:border-slate-300 dark:*:border-slate-500 *:p-1.5" key={row.userId}>
                                                 <td className="text-right">{no+1}</td>
                                                 <td>{row.username}</td>
                                                 <td>Encrypted</td>
@@ -125,26 +125,26 @@ export default function User(){
                 </table>
             </div>
             <div className={`${showModal ? 'fixed' : 'hidden'} w-screen h-screen bg-slate-500/40 left-0 top-0 right-0 bottom-0 flex justify-center items-center backdrop-blur-sm`}>
-                <div className="bg-white p-4 rounded-md w-full max-w-[90%] sm:max-w-md">
+                <div className="bg-white p-4 rounded-md w-full max-w-[90%] sm:max-w-md dark:bg-slate-800">
                     <Form method={userData.userId === '' ? 'POST' : 'PUT'}>
                         <input type="hidden" name="userId" value={userData.userId} />
                         <div className="grid grid-cols-1 gap-2">
-                            <label htmlFor="username">Username</label>
-                            <input type="text" name="username" id="username" className="border p-2" placeholder="Username" value={userData.username} onChange={(e) => {
+                            <label className="dark:text-slate-300" htmlFor="username">Username</label>
+                            <input type="text" name="username" id="username" className="border p-2 dark:bg-slate-500" placeholder="Username" value={userData.username} onChange={(e) => {
                                 setUserData({
                                     ...userData,
                                     username: e.target.value
                                 })
                             }} required ref={username} />
-                            <label htmlFor="password">Password</label>
-                            <input type="password" name="password" id="password" className="border p-2" placeholder="Password" value={userData.password} onChange={(e) => {
+                            <label className="dark:text-slate-300" htmlFor="password">Password</label>
+                            <input type="password" name="password" id="password" className="border p-2 dark:bg-slate-500" placeholder="Password" value={userData.password} onChange={(e) => {
                                 setUserData({
                                     ...userData,
                                     password: e.target.value
                                 })
                             }} required={userData.userId === ''} />
-                            <label htmlFor="terminalId">Terminal</label>
-                            <select name="terminalId" id="terminalId" className="border p-2 bg-white" value={userData.terminalId} onChange={(e) => {
+                            <label className="dark:text-slate-300" htmlFor="terminalId">Terminal</label>
+                            <select name="terminalId" id="terminalId" className="border p-2 dark:bg-slate-500 bg-white" value={userData.terminalId} onChange={(e) => {
                                 setUserData({
                                     ...userData,
                                     terminalId: e.target.value
