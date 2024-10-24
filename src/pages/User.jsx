@@ -51,7 +51,7 @@ export default function User(){
                     })
                 }} className="bg-blue-500 text-white px-4 py-2 rounded-md">Tambah Data</button>
                 <form>
-                    <input type="text" name="q" className="border rounded-md py-2 px-4" placeholder="Search" defaultValue={q} onChange={(e) => {
+                    <input type="text" name="q" className="border rounded-md py-2 px-4 w-full" placeholder="Search" defaultValue={q} onChange={(e) => {
                         const first = q === null
                         submit(e.target.form, {
                             replace: !first
@@ -59,45 +59,45 @@ export default function User(){
                     }} />
                 </form>
             </div>
-            <table className="w-full">
-                <thead>
-                    <tr className="*:border *:border-slate-300 *:p-1.5">
-                        <th>No</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Terminal</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <Suspense fallback={(
+            <div className="overflow-auto">
+                <table className="w-full">
+                    <thead>
                         <tr className="*:border *:border-slate-300 *:p-1.5">
-                            <td colSpan="5" className="text-center">Loading...</td>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Terminal</th>
+                            <th>Action</th>
                         </tr>
-                    )}>
-                        <Await resolve={data} errorElement={(
+                    </thead>
+                    <tbody>
+                        <Suspense fallback={(
                             <tr className="*:border *:border-slate-300 *:p-1.5">
-                                <td colSpan="5" className="text-center">Data Gagal dimuat</td>
+                                <td colSpan="5" className="text-center">Loading...</td>
                             </tr>
                         )}>
-                            {(data) => {
-                                if(data.length === 0){
-                                    return (
-                                        <tr className="*:border *:border-slate-300 *:p-1.5">
-                                            <td colSpan="5" className="text-center">Data Kosong</td>
-                                        </tr>
-                                    )
-                                }
+                            <Await resolve={data} errorElement={(
+                                <tr className="*:border *:border-slate-300 *:p-1.5">
+                                    <td colSpan="5" className="text-center">Data Gagal dimuat</td>
+                                </tr>
+                            )}>
+                                {(data) => {
+                                    if(data.length === 0){
+                                        return (
+                                            <tr className="*:border *:border-slate-300 *:p-1.5">
+                                                <td colSpan="5" className="text-center">Data Kosong</td>
+                                            </tr>
+                                        )
+                                    }
 
-                                return data.map((row, no) => {
-                                    return (
-                                        <tr className="*:border *:border-slate-300 *:p-1.5" key={row.userId}>
-                                            <td className="text-right">{no+1}</td>
-                                            <td>{row.username}</td>
-                                            <td>Encrypted</td>
-                                            <td>{row.terminalName}</td>
-                                            <td className="text-center">
-                                                <div className="space-x-2">
+                                    return data.map((row, no) => {
+                                        return (
+                                            <tr className="*:border *:border-slate-300 *:p-1.5" key={row.userId}>
+                                                <td className="text-right">{no+1}</td>
+                                                <td>{row.username}</td>
+                                                <td>Encrypted</td>
+                                                <td>{row.terminalName}</td>
+                                                <td className="text-center">
                                                     <button onClick={() => {
                                                         setShowModal(true)
                                                         setUserData({
@@ -106,26 +106,26 @@ export default function User(){
                                                             password: '',
                                                             terminalId: row.terminalId
                                                         })
-                                                    }} className="bg-orange-500 text-white px-4 py-2 rounded-md">Edit</button>
+                                                    }} className="bg-orange-500 text-white px-4 py-2 rounded-md m-1">Edit</button>
                                                     <button onClick={() => {
                                                         if(confirm('Yakin ingin menghapus data?')){
                                                             submit({userId: row.userId}, {
                                                                 method: 'DELETE'
                                                             })
                                                         }
-                                                    }} className="bg-red-500 text-white px-4 py-2 rounded-md">Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }}
-                        </Await>
-                    </Suspense>
-                </tbody>
-            </table>
+                                                    }} className="bg-red-500 text-white px-4 py-2 rounded-md m-1">Delete</button>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })
+                                }}
+                            </Await>
+                        </Suspense>
+                    </tbody>
+                </table>
+            </div>
             <div className={`${showModal ? 'fixed' : 'hidden'} w-screen h-screen bg-slate-500/40 left-0 top-0 right-0 bottom-0 flex justify-center items-center backdrop-blur-sm`}>
-                <div className="bg-white p-4 rounded-md w-full max-w-md">
+                <div className="bg-white p-4 rounded-md w-full max-w-[90%] sm:max-w-md">
                     <Form method={userData.userId === '' ? 'POST' : 'PUT'}>
                         <input type="hidden" name="userId" value={userData.userId} />
                         <div className="grid grid-cols-1 gap-2">

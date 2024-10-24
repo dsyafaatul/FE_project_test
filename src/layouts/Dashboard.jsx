@@ -34,7 +34,7 @@ export default function Dashboard(){
                         </ul>
                     </nav>
                 </aside>
-                <main className="grow">
+                <main className="grow max-w-full">
                     <div className="flex justify-between items-center bg-slate-100 border-b-2 p-4 group/user">
                         <div className="flex items-center">
                             <button onClick={() => setShowSidebarMobile(!showSideBarMobile)} className="sm:hidden">
